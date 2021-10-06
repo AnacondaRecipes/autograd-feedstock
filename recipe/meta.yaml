@@ -20,9 +20,6 @@ requirements:
     - pip
     - python
     - setuptools
-    - numpy >=1.10
-    - future >=0.15.2
-    - scipy >=0.17
 
   run:
     - python
@@ -45,7 +42,7 @@ about:
   home: https://github.com/HIPS/autograd
   license: MIT
   license_family: MIT
-  license_file: license.txt
+  #license_file: license.txt
   summary: 'Efficiently computes derivatives of numpy code.'
   dev_url: https://github.com/HIPS/autograd
   doc_url: https://github.com/HIPS/autograd/blob/master/docs/tutorial.md
