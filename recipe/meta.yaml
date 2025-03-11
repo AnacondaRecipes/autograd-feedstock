@@ -21,7 +21,12 @@ requirements:
     - hatchling
   run:
     - python
-    - numpy
+    # https://github.com/HIPS/autograd/blob/v1.7.0/autograd/numpy/numpy_vspaces.py#L81
+    # has both a >=2.0.0 and >=1.25 checks.
+    - numpy >=1.25
+    # We use autograd.scipy, below, so want scipy here.  This used to
+    # be >=0.17 which was last seen in 1.1.12
+    - scipy
 
 test:
   imports:
