@@ -1,5 +1,5 @@
-{% set version = "1.5" %}
-{% set sha256 = "d80bd225154d1db13cb4eaccf7a18c358be72092641b68717f96fcf1d16acd0b" %}
+{% set version = "1.7.0" %}
+{% set sha256 = "de743fd368d6df523cd37305dcd171861a9752a144493677d2c9f5a56983ff2f" %}
 
 package:
   name: autograd
@@ -20,10 +20,11 @@ requirements:
     - python
     - setuptools
     - wheel
+    - hatchling
   run:
     - python
-    - numpy >=1.12
-    - future >=0.15.2
+    - numpy
+    - future >=0.15.2  # [py<313]
     - scipy >=0.17
 
 test:
