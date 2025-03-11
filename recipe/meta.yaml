@@ -1,14 +1,13 @@
+{% set name = "autograd" %}
 {% set version = "1.7.0" %}
-{% set sha256 = "de743fd368d6df523cd37305dcd171861a9752a144493677d2c9f5a56983ff2f" %}
 
 package:
-  name: autograd
+  name: {{ name }}
   version: {{ version }}
 
 source:
-  fn: autograd-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/a/autograd/autograd-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: de743fd368d6df523cd37305dcd171861a9752a144493677d2c9f5a56983ff2f
 
 build:
   number: 0
@@ -18,14 +17,11 @@ requirements:
   host:
     - pip
     - python
-    - setuptools
     - wheel
     - hatchling
   run:
     - python
     - numpy
-    - future >=0.15.2  # [py<313]
-    - scipy >=0.17
 
 test:
   imports:
