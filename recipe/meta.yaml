@@ -1,16 +1,16 @@
-{% set version = "1.5" %}
-{% set sha256 = "d80bd225154d1db13cb4eaccf7a18c358be72092641b68717f96fcf1d16acd0b" %}
+{% set name = "autograd" %}
+{% set version = "1.7.0" %}
 
 package:
-  name: autograd
+  name: {{ name }}
   version: {{ version }}
 
 source:
-  fn: autograd-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/a/autograd/autograd-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: de743fd368d6df523cd37305dcd171861a9752a144493677d2c9f5a56983ff2f
 
 build:
+  skip: True  # [py<38]
   number: 0
   script: {{ PYTHON }} -m pip install --no-deps --ignore-installed --no-build-isolation . -vv
 
@@ -18,15 +18,26 @@ requirements:
   host:
     - pip
     - python
-    - setuptools
     - wheel
+    - hatchling
   run:
     - python
-    - numpy >=1.12
-    - future >=0.15.2
-    - scipy >=0.17
+    # https://github.com/HIPS/autograd/blob/v1.7.0/autograd/numpy/numpy_vspaces.py#L81
+    # has both a >=2.0.0 and >=1.25 checks.
+    - numpy >=1.25
+    # We use autograd.scipy, below, so want scipy here.  This used to
+    # be >=0.17 which was last seen in 1.1.12
+    - scipy
+
+# ValueError: non-broadcastable output operand with shape () doesn't match the broadcast shape (1,)
+#
+# affects numpy 1.25 and 2.* -- a suggestion is to replace the code
+# with x = x + y but that generates a different error
+{% set tests_to_skip = "test_logsumexp1" %}
 
 test:
+  source_files:
+    - tests
   imports:
     - autograd
     - autograd.numpy
@@ -35,15 +46,17 @@ test:
     - autograd.misc
   requires:
     - pip
+    - pytest
   commands:
     - pip check
+    - pytest -v tests -k "not ({{ tests_to_skip }})"
 
 about:
   home: https://github.com/HIPS/autograd
   license: MIT
   license_family: MIT
   license_file: license.txt
-  summary: 'Efficiently computes derivatives of numpy code.'
+  summary: Efficiently computes derivatives of numpy code.
   description: |
     Autograd can automatically differentiate native Python and Numpy code.
     It can handle a large subset of Python's features, including loops, ifs,
