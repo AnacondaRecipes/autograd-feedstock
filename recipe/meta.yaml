@@ -1,28 +1,27 @@
 {% set name = "autograd" %}
-{% set version = "1.7.0" %}
+{% set version = "1.8.0" %}
 
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: de743fd368d6df523cd37305dcd171861a9752a144493677d2c9f5a56983ff2f
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 107374ded5b09fc8643ac925348c0369e7b0e73bbed9565ffd61b8fd04425683
 
 build:
-  skip: True  # [py<38]
   number: 0
   script: {{ PYTHON }} -m pip install --no-deps --ignore-installed --no-build-isolation . -vv
+  skip: true  # [py<39]
 
 requirements:
   host:
     - pip
     - python
-    - wheel
     - hatchling
   run:
     - python
-    # https://github.com/HIPS/autograd/blob/v1.7.0/autograd/numpy/numpy_vspaces.py#L81
+    # https://github.com/HIPS/autograd/blob/v1.8.0/autograd/numpy/numpy_vspaces.py#L100
     # has both a >=2.0.0 and >=1.25 checks.
     - numpy >=1.25
     # We use autograd.scipy, below, so want scipy here.  This used to
