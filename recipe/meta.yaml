@@ -1,5 +1,6 @@
 {% set name = "autograd" %}
 {% set version = "1.8.0" %}
+{% set tests_to_skip = "test_logsumexp1" %}
 
 package:
   name: {{ name }}
@@ -10,7 +11,7 @@ source:
   sha256: 107374ded5b09fc8643ac925348c0369e7b0e73bbed9565ffd61b8fd04425683
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install --no-deps --ignore-installed --no-build-isolation . -vv
   skip: true  # [py<39]
 
@@ -32,8 +33,6 @@ requirements:
 #
 # affects numpy 1.25 and 2.* -- a suggestion is to replace the code
 # with x = x + y but that generates a different error
-{% set tests_to_skip = "test_logsumexp1" %}
-
 test:
   source_files:
     - tests
