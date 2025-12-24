@@ -1,6 +1,5 @@
 {% set name = "autograd" %}
 {% set version = "1.8.0" %}
-{% set tests_to_skip = "test_logsumexp1" %}
 
 package:
   name: {{ name }}
@@ -33,6 +32,8 @@ requirements:
 #
 # affects numpy 1.25 and 2.* -- a suggestion is to replace the code
 # with x = x + y but that generates a different error
+{% set tests_to_skip = "test_logsumexp1" %}
+
 test:
   source_files:
     - tests
