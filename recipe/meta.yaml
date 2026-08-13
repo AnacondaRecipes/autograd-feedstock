@@ -1,11 +1,6 @@
 {% set name = "autograd" %}
 {% set version = "1.9.1" %}
-{% set tests_to_skip = "test_logsumexp1" %}
 
-# ValueError: non-broadcastable output operand with shape () doesn't match the broadcast shape (1,)
-#
-# affects numpy 1.25 and 2.* -- a suggestion is to replace the code
-# with x = x + y but that generates a different error
 package:
   name: {{ name }}
   version: {{ version }}
@@ -33,6 +28,12 @@ requirements:
     # be >=0.17 which was last seen in 1.1.12
     - scipy
 
+# ValueError: non-broadcastable output operand with shape () doesn't match the broadcast shape (1,)
+#
+# affects numpy 1.25 and 2.* -- a suggestion is to replace the code
+# with x = x + y but that generates a different error
+{% set tests_to_skip = "test_logsumexp1" %}
+
 test:
   source_files:
     - tests
@@ -47,7 +48,7 @@ test:
     - pytest
   commands:
     - pip check
-    - pytest -v tests -k "not ({{ tests_to_skip }})"
+    - pytest -vv tests -k "not ({{ tests_to_skip }})"
 
 about:
   home: https://github.com/HIPS/autograd
